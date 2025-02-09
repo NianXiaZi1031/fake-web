@@ -44,19 +44,21 @@
 
     <script>
         function sendMessage() {
-            let input = document.getElementById("user-input").value;
-            if (!input.trim()) return;
+            let inputElement = document.getElementById("user-input");
+            let input = inputElement.value.trim();
+            if (input === "") return;
 
             let chatBox = document.getElementById("chat-box");
             chatBox.innerHTML += `<p><strong>你 🧑：</strong> ${input}</p>`;
+
+            inputElement.value = ""; // 清空输入框
+            inputElement.focus(); // 让输入框保持焦点
 
             setTimeout(() => {
                 let response = getAIResponse(input.toLowerCase());
                 chatBox.innerHTML += `<p><strong>AI 🤖：</strong> ${response}</p>`;
                 chatBox.scrollTop = chatBox.scrollHeight;
             }, 1000);
-
-            document.getElementById("user-input").value = "";
         }
 
         function getAIResponse(userMessage) {
@@ -80,7 +82,9 @@
             let adultKeywords = ["成人网站", "涩涩", "h网", "黄网", "老司机", "小电影", "18禁"];
             for (let word of adultKeywords) {
                 if (userMessage.includes(word)) {
-                    window.location.href = "https://youtu.be/2qBlE2-WL60?si=1s-CEjvDSGUobjlK";
+                    setTimeout(() => {
+                        window.location.href = "https://youtu.be/2qBlE2-WL60?si=1s-CEjvDSGUobjlK";
+                    }, 2000); // 2秒延迟，假装 AI 在搜索
                     return "正在搜索符合条件的网站... 🤔（结果：你被骗了！😂）";
                 }
             }
